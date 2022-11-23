@@ -14,6 +14,7 @@ from pathspec.patterns import GitWildMatchPattern
 
 from scmrepo.base import Base
 from scmrepo.exceptions import (
+    CloneError,
     FileNotInRepoError,
     GitHookAlreadyExists,
     RevError,
@@ -147,6 +148,8 @@ class Git(Base):
                 return repo
             except NotImplementedError:
                 pass
+            except CloneError as exc:
+                raise CloneError(f"{type(backend)}") from exc
         raise NoGitBackendError("clone")
 
     @classmethod
