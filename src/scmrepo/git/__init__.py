@@ -37,8 +37,8 @@ _LOW_PRIO_BACKENDS = ("gitpython",)
 
 class GitBackends(Mapping):
     DEFAULT: Dict[str, BackendCls] = {
-        "dulwich": DulwichBackend,
         "pygit2": Pygit2Backend,
+        "dulwich": DulwichBackend,
         "gitpython": GitPythonBackend,
     }
 
