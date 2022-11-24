@@ -139,6 +139,7 @@ class Git(Base):
         rev: Optional[str] = None,
         **kwargs,
     ):
+        clone_error = None
         for _, backend in GitBackends.DEFAULT.items():
             try:
                 backend.clone(url, to_path, **kwargs)
@@ -149,8 +150,11 @@ class Git(Base):
             except NotImplementedError:
                 pass
             except CloneError as exc:
-                raise RuntimeError(f"{backend}") from exc
-        raise NoGitBackendError("clone")
+                if clone_error is None:
+                    clone_error = exc
+        raise NoGitBackendError(
+            "clone"
+        ) if clone_error is None else clone_error
 
     @classmethod
     def is_sha(cls, rev):
