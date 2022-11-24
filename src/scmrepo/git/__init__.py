@@ -149,7 +149,7 @@ class Git(Base):
             except NotImplementedError:
                 pass
             except CloneError as exc:
-                raise CloneError(f"{type(backend)}") from exc
+                raise RuntimeError(f"{type(backend)}") from exc
         raise NoGitBackendError("clone")
 
     @classmethod
